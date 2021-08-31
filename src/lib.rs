@@ -147,7 +147,7 @@ pub fn validate_offset(offset: u64, buf: &[u8]) -> bool {
         let w_len = (4 - window_offset) as usize;
         if &buf[..w_len] != &cur_u32[(4 - w_len)..] {
             let cur_offset = offset + buf_offset as u64;
-            let buf_num = u32::from_be_bytes(buf[buf_offset..buf_offset + 4].try_into().unwrap());
+            let buf_num = u32::from_be_bytes(buf[buf_offset..buf_offset + 4].try_into().unwrap()) as u64;
             println!("TIMECODE VALIDATION FAILED (pre)");
             // println!(
             //     "Start {}, offset {}: expected {:?} but found {:?}",
