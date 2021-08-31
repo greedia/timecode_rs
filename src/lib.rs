@@ -145,13 +145,25 @@ pub fn validate_offset(offset: u64, buf: &[u8]) -> bool {
         let w_len = (4 - window_offset) as usize;
         if &buf[..w_len] != &cur_u32[(4 - w_len)..] {
             let cur_offset = offset + buf_offset as u64;
+            let buf_num = u32::from_be_bytes(buf[buf_offset..buf_offset + 4].try_into().unwrap());
             println!("TIMECODE VALIDATION FAILED (pre)");
+            // println!(
+            //     "Start {}, offset {}: expected {:?} but found {:?}",
+            //     offset,
+            //     cur_offset,
+            //     &cur_u32[(4 - w_len)..],
+            //     &buf[..w_len]
+            // );
             println!(
-                "Start {}, offset {}: expected {:?} but found {:?}",
+                "Start {}, offset {}: expected {:?} ({} x4 = {}) but found {:?} ({} x4 = {})",
                 offset,
                 cur_offset,
-                &cur_u32[(4 - w_len)..],
-                &buf[..w_len]
+                &cur_u32,
+                u32_offset,
+                u32_offset*4,
+                &buf[buf_offset..buf_offset + 4],
+                buf_num,
+                buf_num*4,
             );
             println!("After:  {:?}", &buf[buf_offset+(4-w_len)..min(buf_offset+(4-w_len)+12, buf.len())]);
             return false;
