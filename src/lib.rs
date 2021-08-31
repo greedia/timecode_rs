@@ -131,6 +131,8 @@ pub fn validate_offset(offset: u64, buf: &[u8]) -> bool {
 
     if let Some(read_offset) = read_offset(buf) {
         println!("TIMECODE READ OFFSET: {}", read_offset);
+    } else {
+        println!("TIMECODE WARNING: COULD NOT READ OFFSET");
     }
 
     // Use the same strategy as the reader, but instead of writing, just compare with what we expect to write.
